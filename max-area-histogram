@@ -1,0 +1,48 @@
+#include<iostream>
+#include<stack>
+
+using namespace std;
+
+int main()
+ {
+	long long int t;
+	cin>>t;
+	while(t--){
+	    long long int n;
+	    cin>>n;
+	    long long int arr[n];
+	    for(long long int i=0; i<n; i++){
+	        cin>>arr[i];
+	    }
+      
+	    //actual code starts here
+      
+	    stack<long long int> s;
+	    
+	    long long int maxarea = 0;
+	    
+	    for(long long int i=0; i<n; i++){
+	        if(s.empty() || arr[i]>=arr[s.top()]){
+	            s.push(i);
+	        }
+	        else{
+	            while(!s.empty() && arr[s.top()]>arr[i]){
+	                long long int temp = s.top(); s.pop();
+	                long long int area = arr[temp] * (s.empty() ? i : i-s.top()-1);
+	                maxarea = max(maxarea, area);
+	            }
+	            s.push(i);
+	            // or replace this statement with: i--;
+	        }
+	    }
+	    while(!s.empty()){
+	        long long int temp = s.top(); s.pop();
+	        long long int area = arr[temp] * (s.empty() ? n : n-s.top()-1);
+	        maxarea = max(maxarea, area);
+	    }
+	    
+	    cout<<maxarea<<endl;
+	    
+	}
+	return 0;
+}
